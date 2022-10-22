@@ -43,5 +43,8 @@ jobs:
       - name: Install packages
         run: yarn install
 
+      - name: Build
+        run: DISABLE_ESLINT_PLUGIN=true yarn build
+
       - name: Build packages
         run: yarn build
