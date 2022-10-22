@@ -44,7 +44,7 @@
               aws s3 cp \
                 --recursive \
                 --region ap-northeast-2 \
-                build s3://admin.entrydsm.hs.kr
+                build s3://team-aliens-webview
           - name: Invalidate Cloudfront
             uses: chetan/invalidate-cloudfront-action@master
             env:
