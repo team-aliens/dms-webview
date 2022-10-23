@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Policy } from './pages/Policy';
 
-const Router = () => {
+export const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -10,4 +10,3 @@ const Router = () => {
     </BrowserRouter>
   );
 };
-export default Router;

@@ -24,6 +24,10 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="develop" />
+                    <option name="lastUsedInstant" value="1666455637" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="feature/2-add_sign_up_policy" />
                     <option name="lastUsedInstant" value="1666445558" />
                   </RecentBranch>
