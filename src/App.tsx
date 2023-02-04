@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router } from './Router';
-import { StyledProvider } from 'aliens-design-system-front';
+import { StyledProvider } from '@team-aliens/design-system';
 
 function App() {
   return (
