@@ -28,7 +28,6 @@ const Wrapper = styled.section`
 `;
 
 const PolicyContent = styled.strong`
-  font-size: ${({ theme }) => theme.textFont.xs.size}px;
-  font-weight: ${({ theme }) => theme.textFont.xs.weight};
+  font: ${({ theme }) => theme.font.captionM};
   color: ${({ theme }) => theme.color.gray5};
 `;
