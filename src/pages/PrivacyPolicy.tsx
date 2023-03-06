@@ -25,9 +25,11 @@ export const PrivacyPolicy = () => {
           개인정보 처리 방침
         </Text>
         <br />
-        DMS는 「개인정보 보호법」 제30조에 따라 정보 주체의 개인정보를 보호하고
-        이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과
-        같이 개인정보 처리방침을 수립·공개합니다.
+        <Text color={userTheme === THEME.LIGHT ? 'gray8' : 'gray3'}>
+          DMS는 「개인정보 보호법」 제30조에 따라 정보 주체의 개인정보를
+          보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기
+          위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다.
+        </Text>
         <br />
         <Text
           size="bodyS"
@@ -76,7 +78,9 @@ export const PrivacyPolicy = () => {
               개인정보를 수집 시에 동의받은 개인정보 보유·이용기간 내에서
               개인정보를 처리·보유합니다.② 각각의 개인정보 처리 및 보유 기간은
             </Text>
-            다음과 같습니다.
+            <Text color={userTheme === THEME.LIGHT ? 'gray8' : 'gray3'}>
+              다음과 같습니다.
+            </Text>
             <ArticleDetailList>
               <ArticleDetail>
                 <Text color={userTheme === THEME.LIGHT ? 'gray8' : 'gray3'}>
@@ -162,7 +166,9 @@ export const PrivacyPolicy = () => {
               ① "DMS"는 원활한 개인정보 업무 처리를 위하여 다음과 같이 개인정보
               처리 업무를 위탁하고 있습니다.
             </Text>
-            <Sub>- 해당 없음</Sub>
+            <Text color={userTheme === THEME.LIGHT ? 'gray8' : 'gray3'}>
+              <Sub>- 해당 없음</Sub>
+            </Text>
           </Sub>
           <Sub>
             {' '}
@@ -328,8 +334,9 @@ export const PrivacyPolicy = () => {
           </Text>
           <Text color={userTheme === THEME.LIGHT ? 'gray8' : 'gray3'}>
             "DMS"는 개인정보의 안전성 확보를 위해 다음과 같은 조치를 취하고
+            있습니다.
           </Text>
-          있습니다.
+
           <ArticleDetailList>
             <ArticleDetail>
               {' '}
