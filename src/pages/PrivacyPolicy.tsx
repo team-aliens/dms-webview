@@ -11,7 +11,7 @@ enum THEME {
 export const PrivacyPolicy = () => {
   const location = useLocation();
   const initTheme = location.search.slice(7);
-  const [userTheme, setUserTheme] = useState<THEME>(
+  const [userTheme] = useState<THEME>(
     initTheme === 'dark' ? THEME.DARK : THEME.LIGHT,
   );
   console.log(location);
