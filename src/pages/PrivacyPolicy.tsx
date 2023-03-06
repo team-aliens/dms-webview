@@ -1,8 +1,5 @@
 import { Text } from '@team-aliens/design-system';
-import {
-  color,
-  gray1,
-} from '@team-aliens/design-system/dist/styles/theme/color';
+import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -14,7 +11,7 @@ enum THEME {
 export const PrivacyPolicy = () => {
   const location = useLocation();
   const initTheme = location.search.slice(7);
-  const [userTheme, _] = useState<THEME>(
+  const [userTheme, setUserTheme] = useState<THEME>(
     initTheme === 'dark' ? THEME.DARK : THEME.LIGHT,
   );
   console.log(location);
