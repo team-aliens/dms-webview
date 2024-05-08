@@ -545,7 +545,6 @@ const Wrapper = styled.section<{ Theme: THEME }>`
 `;
 
 const PolicyContent = styled.div`
-s
 `;
 
 const PolicyArticle = styled.p`
