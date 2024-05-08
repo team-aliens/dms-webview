@@ -7,7 +7,7 @@ interface PictureBoxProps {
     onPictureAdded: () => void;
 }
 
-export const Picture: React.FC<PictureBoxProps> = ({onPictureAdded}) => {
+export const Picture = ({onPictureAdded}: PictureBoxProps) => {
     const [, setPictureAdded] = useState(false);
     const ref = useRef<HTMLInputElement>(null);
 
