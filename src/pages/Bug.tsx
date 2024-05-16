@@ -9,6 +9,7 @@ import IosIcon from '../assets/ios.svg';
 import { Button } from '@team-aliens/design-system';
 import ClickedAndroidIcon from '../assets/clickedAndroid.svg';
 import ClickedIosIcon from '../assets/clickedIos.svg';
+import { instance } from '../apis/axios';
 
 enum THEME {
   'LIGHT' = 'LIGHT',
@@ -19,10 +20,13 @@ export const Bug = () => {
   const [isAndroidClicked, setIsAndroidClicked] = useState(false);
   const [isIosClicked, setIsIosClicked] = useState(false);
   const [bugDescription, setBugDescription] = useState('');
-
-  const [, setPictureAdded] = useState(false);
+  const [attachmentUrls, setAttachmentUrls] = useState<string[]>([]);
   const location = useLocation();
   const initTheme = new URLSearchParams(location.search);
+
+  const [userTheme] = useState<THEME>(
+    initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
+  );
 
   const handleAndroidClick = () => {
     setIsAndroidClicked(true);
@@ -32,12 +36,8 @@ export const Bug = () => {
     setIsIosClicked(true);
     setIsAndroidClicked(false);
   };
-
-  const [userTheme] = useState<THEME>(
-    initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
-  );
-  const handlePictureAdded = () => {
-    setPictureAdded(true);
+  const handlePictureAdded = (url: string) => {
+    setAttachmentUrls([...attachmentUrls, url]);
   };
 
   const handleDescriptionChange = (
@@ -48,6 +48,22 @@ export const Bug = () => {
 
   const isCompleteButtonDisabled =
     !(isAndroidClicked || isIosClicked) || !bugDescription;
+
+    const handleSubmitBug = () => {
+      const body = {
+        content: bugDescription,
+        development_area: isAndroidClicked ? 'ANDROID' : 'IOS',
+        attachment_urls: attachmentUrls,
+      };
+    
+      instance.post('/bugs', body)
+        .then(response => {
+          console.log('버그 제보 완료:', response.data);
+        })
+        .catch(error => {
+          console.error('버그 제보 에러: ', error);
+        });
+    };
 
   return (
     <Wrapper Theme={userTheme}>
@@ -112,6 +128,7 @@ export const Bug = () => {
           color="primary"
           size="medium"
           disabled={isCompleteButtonDisabled}
+          onClick={handleSubmitBug}
         >
           전부 작성했어요
         </CompleteButton>
