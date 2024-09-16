@@ -3,14 +3,10 @@ import Success from "../../assets/check.svg";
 import Fail from "../../assets/fail.svg";
 import { useParams } from "react-router-dom";
 
-interface ResultProps {
-    status: 'success' | 'failure';
-}
-
 export const VolunteerResult: React.FC = () => {
     const { status } = useParams<{ status: 'success' | 'failure' }>();
     const imageSrc = status === 'success' ? Success : Fail;
-    const message = status === 'success' ? '신청이 완료되었습니다.' : '신청이 실패하였습니다.';
+    const message = status === 'success' ? '신청이 완료되었습니다.' : '신청에 문제가 생겼습니다.';
 
     return (
         <Wrapper>

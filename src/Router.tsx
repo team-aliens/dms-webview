@@ -15,7 +15,7 @@ export const Router = () => {
         <Route path='/bug' element={<Bug />}/>
         <Route path='/volunteer/application' element={<VolunteerApplication/>}/>
         <Route path='/volunteer/history' element={<VolunteerHistory/>}/>
-        <Route path='/volunteer/result/:status' element={<VolunteerResult />}/>
+        <Route path='/volunteer/:status' element={<VolunteerResult />}/>
       </Routes>
     </BrowserRouter>
   );
