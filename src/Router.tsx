@@ -4,6 +4,7 @@ import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { Bug } from './pages/Bug';
 import { VolunteerApplication } from './pages/Volunteer/Application';
 import { VolunteerHistory } from './pages/Volunteer/History';
+import { VolunteerResult } from './pages/Volunteer/Result';
 
 export const Router = () => {
   return (
@@ -14,6 +15,7 @@ export const Router = () => {
         <Route path='/bug' element={<Bug />}/>
         <Route path='/volunteer/application' element={<VolunteerApplication/>}/>
         <Route path='/volunteer/history' element={<VolunteerHistory/>}/>
+        <Route path='/volunteer/result/:status' element={<VolunteerResult />}/>
       </Routes>
     </BrowserRouter>
   );

@@ -1,15 +1,10 @@
 import styled from "styled-components"
 
-
-interface ApplicationHistoryProps {
-    status: 'success' | 'failure'; 
-}
-
 interface ButtonProps {
     status: 'success' | 'failure';
 }
 
-export const ApplicationHistory: React.FC<ApplicationHistoryProps> = ({status}) => {
+export const ApplicationHistory: React.FC<ButtonProps> = ({status}) => {
     return (
         <Wrapper>
             <TitleWrapper>
