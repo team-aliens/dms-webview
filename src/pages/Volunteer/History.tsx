@@ -1,24 +1,15 @@
 import styled from "styled-components"
-import { AvailableApplication } from "../../components/Volunteer/AvailableApplication";
 import { VolunteerHeader } from "../../components/Volunteer/Header";
+import { ApplicationHistory } from "../../components/Volunteer/ApplicationHistory";
 
-export const VolunteerApplication = () => {
+export const VolunteerHistory = () => {
     return (
         <Wrapper>
             <VolunteerHeader />
             <ContentWrapper>
                 <ContentContainer>
-                    <AvailableApplication />
-                    <AvailableApplication />
-                    <AvailableApplication />
-                    <AvailableApplication />
-                    <AvailableApplication />
-                    <AvailableApplication />
-                    <AvailableApplication />
-                    <AvailableApplication />
-                    <AvailableApplication />
-                    <AvailableApplication />
-                    <AvailableApplication />
+                    <ApplicationHistory status="success" />
+                    <ApplicationHistory status="failure" />
                 </ContentContainer>
             </ContentWrapper>
         </Wrapper>

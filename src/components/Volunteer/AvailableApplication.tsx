@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import { Text } from "@team-aliens/design-system";
 
 export const AvailableApplication = () => {
     return (
@@ -31,7 +30,7 @@ const TitleWrapper = styled.div`
     gap: 5px;
 `;
 
-const Button = styled.div`
+const Button = styled.button`
     width: 49px;
     height: 30px;
     background-color: #F1F1F1;
