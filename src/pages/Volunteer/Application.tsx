@@ -4,7 +4,7 @@ import { VolunteerHeader } from "../../components/Volunteer/Header";
 import { useState } from "react";
 
 export const VolunteerApplication = () => {
-    const [applications, setApplications] = useState<any[]>([]);
+    const [applications] = useState<any[]>([]);
 
     return (
         <Wrapper>
