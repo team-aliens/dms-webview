@@ -4,7 +4,7 @@ import { ApplicationHistory } from "../../components/Volunteer/ApplicationHistor
 import { useState } from "react";
 
 export const VolunteerHistory = () => {
-    const [histories, setHistories] = useState<any[]>([]);
+    const [histories] = useState<any[]>([]);
 
     return (
         <Wrapper>
