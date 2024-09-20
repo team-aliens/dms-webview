@@ -4,9 +4,9 @@ export const AvailableApplication = () => {
     return (
         <Wrapper>
             <TitleWrapper>
-                <p style={{fontSize: '14px', fontWeight: '600'}}>봉사활동 이름</p>
-                <p style={{fontSize: '13px', fontWeight: '500', color: '#3D8BFF'}}>10시간</p>
-                <p style={{fontSize: '13px', fontWeight: '500', color:"#98A2B3"}}>봉사활동 내용</p>
+                <Name>봉사활동 이름</Name>
+                <Time>10시간</Time>
+                <Content>봉사활동 내용</Content>
             </TitleWrapper>
             <Button>신청</Button>
         </Wrapper>
@@ -41,4 +41,21 @@ const Button = styled.button`
     margin-left: auto;
     font-size: 12px;
     font-weight: 500;
+`;
+
+const Name = styled.p`
+    font-size: 14px;
+    font-weight: 600;
+`;
+
+const Time = styled.p`
+    font-size: 13px;
+    font-weight: 500;
+    color: #3D8BFF;
+`;
+
+const Content = styled.p`
+    font-size: 13px;
+    font-weight: 500;
+    color: #98A2B3;
 `;

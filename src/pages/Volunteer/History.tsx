@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { VolunteerHeader } from "../../components/Volunteer/Header";
 import { ApplicationHistory } from "../../components/Volunteer/ApplicationHistory";
 import { useState } from "react";
+import { Explain, Text } from "./Application";
 
 export const VolunteerHistory = () => {
     const [histories] = useState<any[]>([]);
@@ -18,8 +19,8 @@ export const VolunteerHistory = () => {
                     </ContentContainer>
                 ) : (
                     <TextWrapper>
-                        <p style={{fontSize: '16px', fontWeight: '600'}}>신청 내역이 없습니다.</p>
-                        <p style={{color:'#D0D5DD', fontSize: '13px', fontWeight: '500'}}>신청 내역은 이곳에서 확인할 수 있어요.</p>
+                        <Text>신청 내역이 없습니다.</Text>
+                        <Explain>신청 내역은 이곳에서 확인할 수 있어요.</Explain>
                     </TextWrapper>
                 )}
             </ContentWrapper>

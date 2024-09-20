@@ -18,8 +18,8 @@ export const VolunteerApplication = () => {
                     </ContentContainer>
                 ) : (
                     <TextWrapper>
-                        <p style={{fontSize: '16px', fontWeight: '600'}}>새로운 봉사가 없습니다.</p>
-                        <p style={{color:'#D0D5DD', fontSize: '13px', fontWeight: '500'}}>봉사가 있으면 이곳에서 확인할 수 있어요.</p>
+                        <Text>새로운 봉사가 없습니다.</Text>
+                        <Explain>봉사가 있으면 이곳에서 확인할 수 있어요.</Explain>
                     </TextWrapper>
                 )}
             </ContentWrapper>
@@ -59,4 +59,15 @@ const TextWrapper = styled.div`
     flex-direction: column;
     gap: 2px;
     margin-top: 400px;
+`;
+
+export const Text = styled.p`
+    font-size: 16px;
+    font-weight: 600;
+`;
+
+export const Explain = styled.p`
+    font-size: 13px;
+    font-weight: 500;
+    color: #D0D5DD;
 `;

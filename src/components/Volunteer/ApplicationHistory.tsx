@@ -8,8 +8,8 @@ export const ApplicationHistory: React.FC<ButtonProps> = ({status}) => {
     return (
         <Wrapper>
             <TitleWrapper>
-                <p style={{fontSize: '14px', fontWeight: '600'}}>봉사활동 이름</p>
-                <p style={{fontSize: '13px', fontWeight: '500', color: '#98A2B3'}}>2024.09.16</p>
+                <Name>봉사활동 이름</Name>
+                <Date>2024.09.16</Date>
             </TitleWrapper>
             <Button status={status}>{status === 'success' ? '신청 완료' : '신청 실패'}</Button>
         </Wrapper>
@@ -44,4 +44,15 @@ const Button = styled.div<ButtonProps>`
     color: ${({ status }) => (status === 'success' ? '#3C78EA' : '#7A0017')};
     font-weight: 600;
     font-size: 12px;
+`;
+
+const Name = styled.p`
+    font-size: 14px;
+    font-weight: 600;
+`;
+
+const Date = styled.p`
+    font-size: 13px;
+    font-weight: 500;
+    color: #98A2B3;
 `;
