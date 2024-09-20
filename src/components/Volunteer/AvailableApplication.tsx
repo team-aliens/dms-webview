@@ -1,12 +1,18 @@
 import styled from "styled-components"
 
-export const AvailableApplication = () => {
+interface AvailableApplicationProps {
+    name: string;
+    content: string;
+    time: string;
+}
+
+export const AvailableApplication = ({name, content, time}: AvailableApplicationProps) => {
     return (
         <Wrapper>
             <TitleWrapper>
-                <Name>봉사활동 이름</Name>
-                <Time>10시간</Time>
-                <Content>봉사활동 내용</Content>
+                <Name>{name}</Name>
+                <Time>{time}</Time>
+                <Content>{content}</Content>
             </TitleWrapper>
             <Button>신청</Button>
         </Wrapper>

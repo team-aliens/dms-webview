@@ -1,10 +1,21 @@
 import styled from "styled-components"
 import { AvailableApplication } from "../../components/Volunteer/AvailableApplication";
 import { VolunteerHeader } from "../../components/Volunteer/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getVolunteer } from "../../apis/volunteers";
 
 export const VolunteerApplication = () => {
-    const [applications] = useState<any[]>([]);
+    const [applications, setApplications] = useState<any[]>([]);
+
+    useEffect(() => {
+        getVolunteer()
+        .then((response) => {
+            setApplications(response?.volunteers || []);
+        })
+        .catch((error) => {
+            console.error('봉사 데이터를 가져오는 중 오류가 발생했습니다: ', error);
+        })
+    }, []);
 
     return (
         <Wrapper>
@@ -12,8 +23,8 @@ export const VolunteerApplication = () => {
             <ContentWrapper>
                 {applications.length > 0 ? (
                     <ContentContainer>
-                        {applications.map((index) => (
-                            <AvailableApplication key={index} />
+                        {applications.map((volunteer) => (
+                            <AvailableApplication key={volunteer.id} name={volunteer.name} content={volunteer.content} time={`${volunteer.score}시간`}/>
                         ))}
                     </ContentContainer>
                 ) : (
