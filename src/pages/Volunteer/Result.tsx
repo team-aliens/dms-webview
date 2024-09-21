@@ -18,7 +18,7 @@ export const VolunteerResult: React.FC = () => {
             navigate('/volunteer/application')
         }, 3000);
         return () => clearTimeout(timer);
-    }, []);
+    }, [navigate]);
 
     if (!visible) {
         return null;
