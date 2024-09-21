@@ -39,7 +39,7 @@ export const VolunteerApplication = () => {
 }
 
 const Wrapper = styled.div`
-    width: 100%;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,8 +47,8 @@ const Wrapper = styled.div`
 
 
 const ContentWrapper = styled.div`
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    min-height: 100vh;
     background-color: #F2F2F7;
 `;
 
