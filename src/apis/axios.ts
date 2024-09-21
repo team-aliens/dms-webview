@@ -15,7 +15,7 @@ instance.interceptors.request.use(
       ...config,
     };
     if (accessToken) {
-      //@ts-ignore
+      // @ts-ignore
       returnConfig.headers = {
         Authorization: `Bearer ${accessToken}`,
       };
@@ -24,6 +24,7 @@ instance.interceptors.request.use(
   },
   (error: AxiosError) => Promise.reject(error),
 );
+
 
 // instance.interceptors.response.use(
 //   (response) => response,

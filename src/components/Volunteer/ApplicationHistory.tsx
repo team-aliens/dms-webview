@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components"
 import { getMyVolunteers } from "../../apis/volunteers";
-import { getMyVolunteersResponse, applications } from "../../apis/volunteers/response";
+import { getMyVolunteersResponse } from "../../apis/volunteers/response";
 
 interface ButtonProps {
     status: 'success' | 'failure';
