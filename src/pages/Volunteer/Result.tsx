@@ -2,11 +2,27 @@ import styled from "styled-components"
 import Success from "../../assets/check.svg";
 import Fail from "../../assets/fail.svg";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const VolunteerResult: React.FC = () => {
     const { status } = useParams<{ status: 'success' | 'failure' }>();
+    const [visible, setVisible] = useState(true);
     const imageSrc = status === 'success' ? Success : Fail;
     const message = status === 'success' ? '신청이 완료되었습니다.' : '신청에 문제가 생겼습니다.';
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setVisible(false);
+            navigate('/volunteer/application')
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (!visible) {
+        return null;
+    }
 
     return (
         <Wrapper>

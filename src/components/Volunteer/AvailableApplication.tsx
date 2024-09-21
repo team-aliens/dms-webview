@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import { applicationVolunteer } from "../../apis/volunteers";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface AvailableApplicationProps {
     name: string;
@@ -11,16 +12,17 @@ interface AvailableApplicationProps {
 
 export const AvailableApplication = ({name, content, time, volunteerId}: AvailableApplicationProps) => {
     const [isApplying, setIsApplying] = useState(false);
+    const navigate = useNavigate();
 
-    const handleApply = () => {
+    const handleApply = async () => {
         setIsApplying(true);
-        applicationVolunteer(volunteerId)
-        .then(() => {
-            console.log('성공');
-        })
-        .catch((error) => {
-            console.log(error)
-        })
+        try {
+            await applicationVolunteer(volunteerId);
+            navigate('/volunteer/success');
+        } catch (error) {
+            console.error(error);
+            navigate('/volunteer/failure');
+        }
     }
 
     return (
