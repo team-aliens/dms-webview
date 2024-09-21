@@ -24,7 +24,7 @@ export const VolunteerApplication = () => {
                 {applications.length > 0 ? (
                     <ContentContainer>
                         {applications.map((volunteer) => (
-                            <AvailableApplication key={volunteer.id} name={volunteer.name} content={volunteer.content} time={`${volunteer.score}시간`}/>
+                            <AvailableApplication key={volunteer.id} name={volunteer.name} content={volunteer.content} time={`${volunteer.score}시간`} volunteerId={volunteer.id}/>
                         ))}
                     </ContentContainer>
                 ) : (

@@ -1,12 +1,28 @@
 import styled from "styled-components"
+import { applicationVolunteer } from "../../apis/volunteers";
+import { useEffect, useState } from "react";
 
 interface AvailableApplicationProps {
     name: string;
     content: string;
     time: string;
+    volunteerId: string;
 }
 
-export const AvailableApplication = ({name, content, time}: AvailableApplicationProps) => {
+export const AvailableApplication = ({name, content, time, volunteerId}: AvailableApplicationProps) => {
+    const [isApplying, setIsApplying] = useState(false);
+
+    const handleApply = () => {
+        setIsApplying(true);
+        applicationVolunteer(volunteerId)
+        .then(() => {
+            console.log('성공');
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+
     return (
         <Wrapper>
             <TitleWrapper>
@@ -14,7 +30,7 @@ export const AvailableApplication = ({name, content, time}: AvailableApplication
                 <Time>{time}</Time>
                 <Content>{content}</Content>
             </TitleWrapper>
-            <Button>신청</Button>
+            <Button onClick={handleApply} disabled={isApplying}>신청</Button>
         </Wrapper>
     )
 }
