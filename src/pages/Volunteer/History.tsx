@@ -1,11 +1,22 @@
 import styled from "styled-components"
 import { VolunteerHeader } from "../../components/Volunteer/Header";
 import { ApplicationHistory } from "../../components/Volunteer/ApplicationHistory";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Explain, Text } from "./Application";
+import { getMyVolunteers } from "../../apis/volunteers";
 
 export const VolunteerHistory = () => {
-    const [histories] = useState<any[]>([]);
+    const [histories, setHistories] = useState<any[]>([]);
+
+    useEffect(() => {
+        getMyVolunteers()
+        .then(response => {
+            setHistories(response.volunteer_applications || []);
+        })
+        .catch(error => {
+            console.error('봉사 신청 내역을 가져오는 중 오류가 발생했습니다:' , error);
+        })
+    }, [])
 
     return (
         <Wrapper>
@@ -13,8 +24,8 @@ export const VolunteerHistory = () => {
             <ContentWrapper>
                 {histories.length > 0 ? (
                     <ContentContainer>
-                        {histories.map((index) => (
-                            <ApplicationHistory status="success" key={index}/>
+                        {histories.map((history) => (
+                            <ApplicationHistory status={history.approved? 'success' : 'failure'} key={history.id}/>
                         ))}
                     </ContentContainer>
                 ) : (
@@ -29,15 +40,16 @@ export const VolunteerHistory = () => {
 }
 
 const Wrapper = styled.div`
-    width: 100%;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
+    
 `;
 
 const ContentWrapper = styled.div`
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    min-height: 100vh;
     background-color: #F2F2F7;
 `;
 

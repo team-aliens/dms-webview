@@ -1,19 +1,35 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components"
+import { getMyVolunteers } from "../../apis/volunteers";
+import { getMyVolunteersResponse, applications } from "../../apis/volunteers/response";
 
 interface ButtonProps {
     status: 'success' | 'failure';
 }
 
 export const ApplicationHistory: React.FC<ButtonProps> = ({status}) => {
+    const [histories, setHistories] = useState<any[]>([]);
+
+    useEffect(() => {
+        getMyVolunteers()
+            .then((response: getMyVolunteersResponse) => {
+                setHistories(response.volunteer_applications || []);
+            })
+            .catch((error) => {
+                console.error('내 봉사 신청 내역을 가져오는 중 오류가 발생했습니다: ', error);
+            });
+    }, []);
+
     return (
-        <Wrapper>
-            <TitleWrapper>
-                <Name>봉사활동 이름</Name>
-                <Date>2024.09.16</Date>
-            </TitleWrapper>
-            <Button status={status}>{status === 'success' ? '신청 완료' : '신청 실패'}</Button>
-        </Wrapper>
-    )
+        <>
+            {histories.map((history) => (
+                <Wrapper key={history.id}>
+                    <Name>{history.name}</Name>
+                    <Button status={history.approved ? 'success' : 'failure'}>{history.approved ? '신청 완료' : '신청 실패'}</Button>
+                </Wrapper>
+            ))}
+        </>
+    ) 
 }
 
 const Wrapper = styled.div`
@@ -24,13 +40,6 @@ const Wrapper = styled.div`
     align-items: center;
     background-color: white;
     border-radius: 8px;
-`;
-
-const TitleWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-right: auto;
-    gap: 5px;
 `;
 
 const Button = styled.div<ButtonProps>`
@@ -49,10 +58,5 @@ const Button = styled.div<ButtonProps>`
 const Name = styled.p`
     font-size: 14px;
     font-weight: 600;
-`;
-
-const Date = styled.p`
-    font-size: 13px;
-    font-weight: 500;
-    color: #98A2B3;
+    margin-right: auto;
 `;
