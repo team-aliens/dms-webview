@@ -14,7 +14,7 @@ export const VolunteerResult: React.FC = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setVisible(false);
+            setVisible((prev) => !prev)
             navigate('/volunteer/application')
         }, 3000);
         return () => clearTimeout(timer);
