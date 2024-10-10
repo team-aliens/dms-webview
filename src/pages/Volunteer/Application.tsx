@@ -3,8 +3,19 @@ import { AvailableApplication } from "../../components/Volunteer/AvailableApplic
 import { VolunteerHeader } from "../../components/Volunteer/Header";
 import { useEffect, useState } from "react";
 import { getVolunteer } from "../../apis/volunteers";
+import { useLocation } from "react-router-dom";
+
+enum THEME {
+    'LIGHT' = 'LIGHT',
+    'DARK' = 'DARK',
+}
 
 export const VolunteerApplication = () => {
+    const location = useLocation();
+    const initTheme = new URLSearchParams(location.search);
+    const [userTheme] = useState<THEME>(
+        initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
+    )
     const [applications, setApplications] = useState<any[]>([]);
 
     useEffect(() => {
@@ -26,7 +37,7 @@ export const VolunteerApplication = () => {
     return (
         <Wrapper>
             <VolunteerHeader />
-            <ContentWrapper>
+            <ContentWrapper Theme={userTheme}>
                 {applications.length > 0 ? (
                     <ContentContainer>
                         {applications.map((volunteer) => (
@@ -43,8 +54,8 @@ export const VolunteerApplication = () => {
                     </ContentContainer>
                 ) : (
                     <TextWrapper>
-                        <Text>새로운 봉사가 없습니다.</Text>
-                        <Explain>봉사가 있으면 이곳에서 확인할 수 있어요.</Explain>
+                        <Text Theme={userTheme}>새로운 봉사가 없습니다.</Text>
+                        <Explain Theme={userTheme}>봉사가 있으면 이곳에서 확인할 수 있어요.</Explain>
                     </TextWrapper>
                 )}
             </ContentWrapper>
@@ -60,10 +71,10 @@ const Wrapper = styled.div`
 `;
 
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.div<{Theme: THEME}>`
     width: 100%;
     min-height: 100vh;
-    background-color: #F2F2F7;
+    background-color: ${({Theme}) => Theme === THEME.LIGHT ? '#F2F2F7' : '#242424'};
 `;
 
 const ContentContainer = styled.div`
@@ -82,17 +93,18 @@ const TextWrapper = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 2px;
+    gap: 7px;
     margin-top: 400px;
 `;
 
-export const Text = styled.p`
+export const Text = styled.p<{Theme: THEME}>`
     font-size: 16px;
     font-weight: 600;
+    color: ${({Theme}) => Theme == THEME.LIGHT ? 'black' : 'white'};
 `;
 
-export const Explain = styled.p`
+export const Explain = styled.p<{Theme: THEME}>`
     font-size: 13px;
     font-weight: 500;
-    color: #D0D5DD;
+    color: ${({Theme}) => Theme === THEME.LIGHT ? '#D0D5DD' : '#919297'};
 `;

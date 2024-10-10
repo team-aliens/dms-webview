@@ -4,9 +4,20 @@ import { ApplicationHistory } from "../../components/Volunteer/ApplicationHistor
 import { useEffect, useState } from "react";
 import { Explain, Text } from "./Application";
 import { getMyVolunteers } from "../../apis/volunteers";
+import { useLocation } from "react-router-dom";
+
+enum THEME {
+    'LIGHT' = 'LIGHT',
+    'DARK' = 'DARK',
+}
 
 export const VolunteerHistory = () => {
     const [histories, setHistories] = useState<any[]>([]);
+    const location = useLocation();
+    const initTheme = new URLSearchParams(location.search);
+    const [userTheme] = useState<THEME>(
+        initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
+    )
 
     useEffect(() => {
         getMyVolunteers()
@@ -21,7 +32,7 @@ export const VolunteerHistory = () => {
     return (
         <Wrapper>
             <VolunteerHeader />
-            <ContentWrapper>
+            <ContentWrapper Theme={userTheme}>
                 {histories.length > 0 ? (
                     <ContentContainer>
                         {histories.map((history) => (
@@ -35,8 +46,8 @@ export const VolunteerHistory = () => {
                     </ContentContainer>
                 ) : (
                     <TextWrapper>
-                        <Text>신청 내역이 없습니다.</Text>
-                        <Explain>신청 내역은 이곳에서 확인할 수 있어요.</Explain>
+                        <Text Theme={userTheme}>신청 내역이 없습니다.</Text>
+                        <Explain Theme={userTheme}>신청 내역은 이곳에서 확인할 수 있어요.</Explain>
                     </TextWrapper>
                 )}
             </ContentWrapper>
@@ -52,10 +63,10 @@ const Wrapper = styled.div`
     
 `;
 
-const ContentWrapper = styled.div`
+const ContentWrapper = styled.div<{Theme: THEME}>`
     width: 100%;
     min-height: 100vh;
-    background-color: #F2F2F7;
+    background-color: ${({Theme}) => Theme === THEME.LIGHT ? '#F2F2F7' : '#242424'};
 `;
 
 const ContentContainer = styled.div`
@@ -74,6 +85,6 @@ const TextWrapper = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 2px;
+    gap: 7px;
     margin-top: 400px;
 `;

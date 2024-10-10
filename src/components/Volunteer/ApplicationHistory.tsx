@@ -4,6 +4,12 @@ import { getMyVolunteers } from "../../apis/volunteers";
 import { getMyVolunteersResponse } from "../../apis/volunteers/response";
 import { VolunteerStatus } from "../../apis/volunteers/response";
 import { deleteApplicationVolunteer } from "../../apis/volunteers";
+import { useLocation } from "react-router-dom";
+
+enum THEME {
+    'LIGHT' = 'LIGHT',
+    'DARK' = 'DARK',
+}
 
 interface ApplicationHistoryProps {
     status: VolunteerStatus
@@ -13,6 +19,11 @@ interface ApplicationHistoryProps {
 
 export const ApplicationHistory = ({name, status, id}: ApplicationHistoryProps) => {
     const [histories, setHistories] = useState<any[]>([]);
+    const location = useLocation();
+    const initTheme = new URLSearchParams(location.search);
+    const [userTheme] = useState<THEME>(
+        initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
+    )
 
     const handleDelete = async () => {
         try {
@@ -40,24 +51,24 @@ export const ApplicationHistory = ({name, status, id}: ApplicationHistoryProps) 
 
     return (
         <>
-            <Wrapper>
-                <Name>{name}</Name>
+            <Wrapper Theme={userTheme}>
+                <Name Theme={userTheme}>{name}</Name>
                 <Button>{getButtonLabel()}</Button>
                 {status === 'APPLYING' && (
-                    <CancleButton onClick={handleDelete}>취소</CancleButton>
+                    <CancleButton Theme={userTheme} onClick={handleDelete}>취소</CancleButton>
                 )}
             </Wrapper>
         </>
     ) 
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{Theme: THEME}>`
     width: 100%;
     height: 74px;
     display: flex;
     padding: 16px;
     align-items: center;
-    background-color: white;
+    background-color: ${({Theme}) => Theme === THEME.LIGHT ? 'white' : '2C2C2E'};
     border-radius: 8px;
 `;
 
@@ -70,14 +81,14 @@ const Button = styled.div`
     font-weight: 600;
     font-size: 12px;
     background-color: '#F1F1F1';
-    color: '#000000';
     padding: 0 14px;
     background-color: #E4F3FF;
     color: #3C78EA;
 `;
 
-const CancleButton = styled.button`
-    background-color: #F6F9FE;
+const CancleButton = styled.button<{Theme: THEME}>`
+    background-color: ${({Theme}) => Theme === THEME.LIGHT ? '#F6F9FE' : 'black'};
+    color: ${({Theme}) => Theme === THEME.LIGHT ? 'black' : 'white'};
     width: 49px;
     height: 30px;
     border-radius: 8px;
@@ -86,8 +97,9 @@ const CancleButton = styled.button`
     font-size: 12px;
 `;
 
-const Name = styled.p`
+const Name = styled.p<{Theme: THEME}>`
     font-size: 14px;
     font-weight: 600;
     margin-right: auto;
+    color: ${({Theme}) => Theme === THEME.LIGHT ? 'black' : 'white'};
 `;

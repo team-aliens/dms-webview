@@ -3,6 +3,12 @@ import { applicationVolunteer } from "../../apis/volunteers";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { VolunteerStatus } from "../../apis/volunteers/response";
+import { useLocation } from "react-router-dom";
+
+enum THEME {
+    'LIGHT' = 'LIGHT',
+    'DARK' = 'DARK',
+}
 
 interface AvailableApplicationProps {
     name: string;
@@ -13,9 +19,14 @@ interface AvailableApplicationProps {
     onApply: () => void;
 }
 
-export const AvailableApplication = ({name, content, time, volunteerId, status, onApply}: AvailableApplicationProps) => {
+export const AvailableApplication = ({name, time, volunteerId, status, onApply}: AvailableApplicationProps) => {
     const [isApplying, setIsApplying] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    const initTheme = new URLSearchParams(location.search);
+    const [userTheme] = useState<THEME>(
+        initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
+    )
 
     const handleApply = async () => {
         setIsApplying(true);
@@ -36,24 +47,23 @@ export const AvailableApplication = ({name, content, time, volunteerId, status, 
     }
 
     return (
-        <Wrapper>
+        <Wrapper Theme={userTheme}>
             <TitleWrapper>
-                <Name>{name}</Name>
+                <Name Theme={userTheme}>{name}</Name>
                 <Time>{time}</Time>
-                <Content>{content}</Content>
             </TitleWrapper>
-            <Button onClick={handleApply} disabled={status === 'APPLYING' || status === 'APPLIED'}>{getButtonLabel()}</Button>
+            <Button Theme={userTheme} onClick={handleApply} disabled={status === 'APPLYING' || status === 'APPLIED'}>{getButtonLabel()}</Button>
         </Wrapper>
     )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{Theme: THEME}>`
     width: 100%;
-    height: 94px;
+    height: 74px;
     display: flex;
     padding: 16px;
     align-items: center;
-    background-color: white;
+    background-color: ${({Theme}) => Theme === THEME.LIGHT ? 'white' : '#2C2C2E'};
     border-radius: 8px;
 `;
 
@@ -64,10 +74,25 @@ const TitleWrapper = styled.div`
     gap: 5px;
 `;
 
-const Button = styled.button<{disabled: boolean}>`
+const Button = styled.button<{disabled: boolean; Theme: THEME}>`
     height: 30px;
-    background-color: ${({disabled}) => (disabled ? '#E4F3FF' : '#F1F1F1')};
-    color: ${({disabled}) => (disabled ? '#3C78EA' : '#000000')};
+    background-color: ${({ disabled, Theme }) =>
+        disabled
+            ? Theme === THEME.LIGHT 
+                ? '#E4F3FF'  
+                : '#E4F3FF' 
+            : Theme === THEME.LIGHT 
+                ? '#F1F1F1' 
+                : 'black'}; 
+
+    color: ${({ disabled, Theme }) =>
+        disabled
+            ? Theme === THEME.LIGHT 
+                ? '#3C78EA' 
+                : '#3C78EA' 
+            : Theme === THEME.LIGHT 
+                ? 'black' 
+                : 'white'};
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -78,19 +103,14 @@ const Button = styled.button<{disabled: boolean}>`
     padding: 0 14px;
 `;
 
-const Name = styled.p`
+const Name = styled.p<{Theme: THEME}>`
     font-size: 14px;
     font-weight: 600;
+    color: ${({Theme}) => Theme === THEME.LIGHT ? 'black' : 'white'};
 `;
 
 const Time = styled.p`
     font-size: 13px;
     font-weight: 500;
     color: #3D8BFF;
-`;
-
-const Content = styled.p`
-    font-size: 13px;
-    font-weight: 500;
-    color: #98A2B3;
 `;
