@@ -100,7 +100,7 @@ const TextWrapper = styled.div`
 export const Text = styled.p<{Theme: THEME}>`
     font-size: 16px;
     font-weight: 600;
-    color: ${({Theme}) => Theme == THEME.LIGHT ? 'black' : 'white'};
+    color: ${({Theme}) => Theme === THEME.LIGHT ? 'black' : 'white'};
 `;
 
 export const Explain = styled.p<{Theme: THEME}>`
