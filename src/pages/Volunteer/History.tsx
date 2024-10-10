@@ -40,7 +40,7 @@ export const VolunteerHistory = () => {
                                 key={history.id}
                                 name={history.name}
                                 status={history.status}
-                                id={history.id}
+                                volunteerId={history.volunteer_id}
                             />
                         ))}
                     </ContentContainer>

@@ -14,10 +14,10 @@ enum THEME {
 interface ApplicationHistoryProps {
     status: VolunteerStatus
     name: string;
-    id: string;
+    volunteerId: string;
 }
 
-export const ApplicationHistory = ({name, status, id}: ApplicationHistoryProps) => {
+export const ApplicationHistory = ({name, status, volunteerId}: ApplicationHistoryProps) => {
     const [histories, setHistories] = useState<any[]>([]);
     const location = useLocation();
     const initTheme = new URLSearchParams(location.search);
@@ -27,8 +27,8 @@ export const ApplicationHistory = ({name, status, id}: ApplicationHistoryProps) 
 
     const handleDelete = async () => {
         try {
-            await deleteApplicationVolunteer(id);
-            setHistories(histories.filter(history => history.id !== id));
+            await deleteApplicationVolunteer(volunteerId);
+            setHistories(histories.filter(history => history.volunteer_id !== volunteerId));
         } catch (error) {
             console.log(error);
         }
