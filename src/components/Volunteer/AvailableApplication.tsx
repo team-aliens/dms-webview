@@ -20,7 +20,7 @@ interface AvailableApplicationProps {
 }
 
 export const AvailableApplication = ({name, time, volunteerId, status, onApply}: AvailableApplicationProps) => {
-    const [isApplying, setIsApplying] = useState(false);
+    const [, setIsApplying] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const initTheme = new URLSearchParams(location.search);
