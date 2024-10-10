@@ -2,15 +2,18 @@ import styled from "styled-components"
 import { applicationVolunteer } from "../../apis/volunteers";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { VolunteerStatus } from "../../apis/volunteers/response";
 
 interface AvailableApplicationProps {
     name: string;
     content: string;
     time: string;
     volunteerId: string;
+    status: VolunteerStatus;
+    onApply: () => void;
 }
 
-export const AvailableApplication = ({name, content, time, volunteerId}: AvailableApplicationProps) => {
+export const AvailableApplication = ({name, content, time, volunteerId, status, onApply}: AvailableApplicationProps) => {
     const [isApplying, setIsApplying] = useState(false);
     const navigate = useNavigate();
 
@@ -18,11 +21,18 @@ export const AvailableApplication = ({name, content, time, volunteerId}: Availab
         setIsApplying(true);
         try {
             await applicationVolunteer(volunteerId);
+            onApply();
             navigate('/volunteer/success');
         } catch (error) {
             console.error(error);
             navigate('/volunteer/failure');
         }
+    }
+
+    const getButtonLabel = () => {
+        if (status === 'APPLYING') return '신청중';
+        if (status === 'APPLIED') return '신청 완료';
+        return '신청';
     }
 
     return (
@@ -32,7 +42,7 @@ export const AvailableApplication = ({name, content, time, volunteerId}: Availab
                 <Time>{time}</Time>
                 <Content>{content}</Content>
             </TitleWrapper>
-            <Button onClick={handleApply} disabled={isApplying}>신청</Button>
+            <Button onClick={handleApply} disabled={status === 'APPLYING' || status === 'APPLIED'}>{getButtonLabel()}</Button>
         </Wrapper>
     )
 }
@@ -54,10 +64,10 @@ const TitleWrapper = styled.div`
     gap: 5px;
 `;
 
-const Button = styled.button`
-    width: 49px;
+const Button = styled.button<{disabled: boolean}>`
     height: 30px;
-    background-color: #F1F1F1;
+    background-color: ${({disabled}) => (disabled ? '#E4F3FF' : '#F1F1F1')};
+    color: ${({disabled}) => (disabled ? '#3C78EA' : '#000000')};
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -65,6 +75,7 @@ const Button = styled.button`
     margin-left: auto;
     font-size: 12px;
     font-weight: 500;
+    padding: 0 14px;
 `;
 
 const Name = styled.p`

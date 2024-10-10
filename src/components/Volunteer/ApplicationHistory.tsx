@@ -2,13 +2,26 @@ import { useEffect, useState } from "react";
 import styled from "styled-components"
 import { getMyVolunteers } from "../../apis/volunteers";
 import { getMyVolunteersResponse } from "../../apis/volunteers/response";
+import { VolunteerStatus } from "../../apis/volunteers/response";
+import { deleteApplicationVolunteer } from "../../apis/volunteers";
 
-interface ButtonProps {
-    status: 'success' | 'failure';
+interface ApplicationHistoryProps {
+    status: VolunteerStatus
+    name: string;
+    id: string;
 }
 
-export const ApplicationHistory: React.FC<ButtonProps> = ({status}) => {
+export const ApplicationHistory = ({name, status, id}: ApplicationHistoryProps) => {
     const [histories, setHistories] = useState<any[]>([]);
+
+    const handleDelete = async () => {
+        try {
+            await deleteApplicationVolunteer(id);
+            setHistories(histories.filter(history => history.id !== id));
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
         getMyVolunteers()
@@ -20,14 +33,20 @@ export const ApplicationHistory: React.FC<ButtonProps> = ({status}) => {
             });
     }, []);
 
+    const getButtonLabel = () => {
+        if (status === 'APPLYING') return '신청중';
+        if (status === 'APPLIED') return '신청 완료';
+    }
+
     return (
         <>
-            {histories.map((history) => (
-                <Wrapper key={history.id}>
-                    <Name>{history.name}</Name>
-                    <Button status={history.approved ? 'success' : 'failure'}>{history.approved ? '신청 완료' : '신청 실패'}</Button>
-                </Wrapper>
-            ))}
+            <Wrapper>
+                <Name>{name}</Name>
+                <Button>{getButtonLabel()}</Button>
+                {status === 'APPLYING' && (
+                    <CancleButton onClick={handleDelete}>취소</CancleButton>
+                )}
+            </Wrapper>
         </>
     ) 
 }
@@ -42,15 +61,27 @@ const Wrapper = styled.div`
     border-radius: 8px;
 `;
 
-const Button = styled.div<ButtonProps>`
-    width: 73px;
+const Button = styled.div`
     height: 30px;
     border-radius: 8px;
-    background-color: ${({ status }) => (status === 'success' ? '#E4F3FF' : '#F5E6EA')};
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${({ status }) => (status === 'success' ? '#3C78EA' : '#7A0017')};
+    font-weight: 600;
+    font-size: 12px;
+    background-color: '#F1F1F1';
+    color: '#000000';
+    padding: 0 14px;
+    background-color: #E4F3FF;
+    color: #3C78EA;
+`;
+
+const CancleButton = styled.button`
+    background-color: #F6F9FE;
+    width: 49px;
+    height: 30px;
+    border-radius: 8px;
+    margin-left: 6px;
     font-weight: 600;
     font-size: 12px;
 `;

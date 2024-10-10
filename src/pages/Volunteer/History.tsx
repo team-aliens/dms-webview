@@ -25,7 +25,12 @@ export const VolunteerHistory = () => {
                 {histories.length > 0 ? (
                     <ContentContainer>
                         {histories.map((history) => (
-                            <ApplicationHistory status={history.approved? 'success' : 'failure'} key={history.id}/>
+                            <ApplicationHistory 
+                                key={history.id}
+                                name={history.name}
+                                status={history.status}
+                                id={history.id}
+                            />
                         ))}
                     </ContentContainer>
                 ) : (

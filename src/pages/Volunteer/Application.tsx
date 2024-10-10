@@ -17,6 +17,12 @@ export const VolunteerApplication = () => {
         })
     }, []);
 
+    const removeApplication = (volunteerId: string) => {
+        setApplications((prevApplications) => 
+            prevApplications.filter((volunteer) => volunteer.id !== volunteerId)
+        )
+    }
+
     return (
         <Wrapper>
             <VolunteerHeader />
@@ -24,7 +30,15 @@ export const VolunteerApplication = () => {
                 {applications.length > 0 ? (
                     <ContentContainer>
                         {applications.map((volunteer) => (
-                            <AvailableApplication key={volunteer.id} name={volunteer.name} content={volunteer.content} time={`${volunteer.score}시간`} volunteerId={volunteer.id}/>
+                            <AvailableApplication 
+                                key={volunteer.id} 
+                                name={volunteer.name} 
+                                content={volunteer.content} 
+                                time={`${volunteer.score}점`} 
+                                volunteerId={volunteer.id}
+                                onApply={() => removeApplication(volunteer.id)}
+                                status={volunteer.status}
+                            />
                         ))}
                     </ContentContainer>
                 ) : (
