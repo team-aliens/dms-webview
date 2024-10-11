@@ -1,25 +1,69 @@
 import styled from "styled-components"
+import { applicationVolunteer } from "../../apis/volunteers";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { VolunteerStatus } from "../../apis/volunteers/response";
+import { useLocation } from "react-router-dom";
 
-export const AvailableApplication = () => {
+enum THEME {
+    'LIGHT' = 'LIGHT',
+    'DARK' = 'DARK',
+}
+
+interface AvailableApplicationProps {
+    name: string;
+    content: string;
+    time: string;
+    volunteerId: string;
+    status: VolunteerStatus;
+    onApply: () => void;
+}
+
+export const AvailableApplication = ({name, time, volunteerId, status, onApply}: AvailableApplicationProps) => {
+    const [, setIsApplying] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const initTheme = new URLSearchParams(location.search);
+    const [userTheme] = useState<THEME>(
+        initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
+    )
+
+    const handleApply = async () => {
+        setIsApplying(true);
+        try {
+            await applicationVolunteer(volunteerId);
+            onApply();
+            navigate('/volunteer/success');
+        } catch (error) {
+            console.error(error);
+            navigate('/volunteer/failure');
+        }
+    }
+
+    const getButtonLabel = () => {
+        if (status === 'APPLYING') return '신청중';
+        if (status === 'APPLIED') return '신청 완료';
+        return '신청';
+    }
+
     return (
-        <Wrapper>
+        <Wrapper Theme={userTheme}>
             <TitleWrapper>
-                <Name>봉사활동 이름</Name>
-                <Time>10시간</Time>
-                <Content>봉사활동 내용</Content>
+                <Name Theme={userTheme}>{name}</Name>
+                <Time>{time}</Time>
             </TitleWrapper>
-            <Button>신청</Button>
+            <Button Theme={userTheme} onClick={handleApply} disabled={status === 'APPLYING' || status === 'APPLIED'}>{getButtonLabel()}</Button>
         </Wrapper>
     )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{Theme: THEME}>`
     width: 100%;
-    height: 94px;
+    height: 74px;
     display: flex;
     padding: 16px;
     align-items: center;
-    background-color: white;
+    background-color: ${({Theme}) => Theme === THEME.LIGHT ? 'white' : '#2C2C2E'};
     border-radius: 8px;
 `;
 
@@ -30,10 +74,25 @@ const TitleWrapper = styled.div`
     gap: 5px;
 `;
 
-const Button = styled.button`
-    width: 49px;
+const Button = styled.button<{disabled: boolean; Theme: THEME}>`
     height: 30px;
-    background-color: #F1F1F1;
+    background-color: ${({ disabled, Theme }) =>
+        disabled
+            ? Theme === THEME.LIGHT 
+                ? '#E4F3FF'  
+                : '#E4F3FF' 
+            : Theme === THEME.LIGHT 
+                ? '#F1F1F1' 
+                : 'black'}; 
+
+    color: ${({ disabled, Theme }) =>
+        disabled
+            ? Theme === THEME.LIGHT 
+                ? '#3C78EA' 
+                : '#3C78EA' 
+            : Theme === THEME.LIGHT 
+                ? 'black' 
+                : 'white'};
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -41,21 +100,17 @@ const Button = styled.button`
     margin-left: auto;
     font-size: 12px;
     font-weight: 500;
+    padding: 0 14px;
 `;
 
-const Name = styled.p`
+const Name = styled.p<{Theme: THEME}>`
     font-size: 14px;
     font-weight: 600;
+    color: ${({Theme}) => Theme === THEME.LIGHT ? 'black' : 'white'};
 `;
 
 const Time = styled.p`
     font-size: 13px;
     font-weight: 500;
     color: #3D8BFF;
-`;
-
-const Content = styled.p`
-    font-size: 13px;
-    font-weight: 500;
-    color: #98A2B3;
 `;
