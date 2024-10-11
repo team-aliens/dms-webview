@@ -2,7 +2,6 @@ import axios, {AxiosError} from "axios";
 import { getCookie } from "../utils/cookies";
 import { setCookie } from "../utils/cookies";
 import { reIssueToken } from "./auth";
-import { useEffect } from "react";
 
 export const instance = axios.create({
   baseURL: `https://dev-api.dms-dsm.com`,
