@@ -25,6 +25,7 @@ instance.interceptors.request.use(
   (error: AxiosError) => Promise.reject(error),
 );
 
+<<<<<<< Updated upstream
 
 // instance.interceptors.response.use(
 //   (response) => response,
@@ -57,6 +58,8 @@ instance.interceptors.request.use(
 //     }
 //   }
 // );
+=======
+>>>>>>> Stashed changes
 
 instance.interceptors.response.use(
   (response) => response,
