@@ -541,7 +541,7 @@ const Wrapper = styled.section<{ Theme: THEME }>`
   width: 100%;
   padding: 75px 7% 50px 7%;
   background: ${({ Theme }) =>
-    Theme === THEME.LIGHT ? color.gray1 : '#242424'};
+    Theme === THEME.LIGHT ? color.gray1 : '#2C2C2E'};
 `;
 
 const PolicyContent = styled.div`
