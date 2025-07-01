@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import Arrow from '../../assets/arrow.svg';
-import ArrowWhite from '../../assets/arrow-white.svg';
 import { Text } from '@team-aliens/design-system';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
