@@ -1,26 +1,21 @@
-import axios, {AxiosError} from "axios";
-import { getCookie } from "../utils/cookies";
-import { setCookie } from "../utils/cookies";
-import { reIssueToken } from "./auth";
+import axios, { AxiosError } from 'axios';
+import { getCookie } from '../utils/cookies';
+import { setCookie } from '../utils/cookies';
+import { reIssueToken } from './auth';
 
 export const instance = axios.create({
-  baseURL: `https://dev-api.dms-dsm.com`,
+  baseURL: process.env.REACT_APP_BASE_URL,
   timeout: 10000,
 });
 
 instance.interceptors.request.use(
   (config) => {
     const accessToken = getCookie('access_token');
-    const returnConfig = {
-      ...config,
-    };
     if (accessToken) {
-      // @ts-ignore
-      returnConfig.headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
+      config.headers = config.headers ?? {};
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
-    return returnConfig;
+    return config;
   },
   (error: AxiosError) => Promise.reject(error),
 );
@@ -29,7 +24,7 @@ instance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError<AxiosError>) => {
     if (axios.isAxiosError(error) && error.response) {
-      const {config} = error;
+      const { config } = error;
       const refreshToken = getCookie('refresh_token');
       if (error.response.data.message === 'Expired Token') {
         if (refreshToken) {
@@ -47,8 +42,8 @@ instance.interceptors.response.use(
             });
 
             if (config?.headers)
-              config.headers['Authorization'] = `Bearer ${res.access_token}`
-            
+              config.headers['Authorization'] = `Bearer ${res.access_token}`;
+
             return axios(config!);
           } catch (error) {
             return Promise.reject(error);
@@ -61,5 +56,5 @@ instance.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
