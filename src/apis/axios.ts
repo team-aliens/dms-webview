@@ -4,7 +4,7 @@ import { setCookie } from '../utils/cookies';
 import { reIssueToken } from './auth';
 
 export const instance = axios.create({
-  baseURL: process.env.APP_PUBLIC_URL,
+  baseURL: process.env.REACT_APP_BASE_URL,
   timeout: 10000,
 });
 
