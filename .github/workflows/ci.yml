@@ -34,6 +34,9 @@ jobs:
           # yarn 캐시를 활성화하여 의존성 설치 속도를 향상시킵니다.
           cache: 'yarn'
 
+      - name: Enable Corepack
+        run: corepack enable
+
       # .env 파일을 생성하여 빌드 시 환경변수를 주입합니다.
       # axios.ts에서 process.env.REACT_APP_BASE_URL을 사용하므로, 변수 이름을 이에 맞춥니다.
       - name: Create .env file
