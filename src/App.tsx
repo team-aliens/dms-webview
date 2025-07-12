@@ -6,8 +6,23 @@ import { setCookie } from './utils/cookies';
 
 function App() {
   useEffect(() => {
-    window.receiveToken = (token) => {
-      setCookie('access_token', token);
+    window.setAuthToken = (accessToken, refreshToken) => {
+      const expires = new Date();
+      expires.setDate(expires.getDate() + 7);
+
+      if (accessToken) {
+        setCookie('access_token', accessToken, {
+          path: '/',
+          expires,
+        });
+      }
+      if (refreshToken) {
+        setCookie('refresh_token', refreshToken, {
+          path: '/',
+          expires,
+        });
+      }
+      window.location.reload();
     };
   }, []);
   return (

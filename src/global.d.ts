@@ -2,6 +2,6 @@ export {};
 
 declare global {
   interface Window {
-    receiveToken: (token: string) => void;
+    setAuthToken: (accessToken: string, refreshToken: string) => void;
   }
 }
