@@ -22,6 +22,7 @@ export const VolunteerHistory = () => {
   const { data } = useGetMyVolunteers();
 
   useEffect(() => {
+    console.log('연동 성공! 데이터:', data);
     setHistories(data?.volunteer_applications || []);
   }, [data]);
 
