@@ -12,7 +12,6 @@ enum THEME {
 }
 
 export const VolunteerApplication = () => {
-  console.log('BASE_URL 확인용:', process.env.REACT_APP_BASE_URL);
   const location = useLocation();
   const initTheme = new URLSearchParams(location.search);
   const [userTheme] = useState<THEME>(
