@@ -4,6 +4,7 @@ import { VolunteerHeader } from '../../components/Volunteer/Header';
 import { useEffect, useState } from 'react';
 import { getVolunteer } from '../../apis/volunteers';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 enum THEME {
   'LIGHT' = 'LIGHT',
@@ -11,6 +12,7 @@ enum THEME {
 }
 
 export const VolunteerApplication = () => {
+  console.log('BASE_URL 확인용:', process.env.REACT_APP_BASE_URL);
   const location = useLocation();
   const initTheme = new URLSearchParams(location.search);
   const [userTheme] = useState<THEME>(
@@ -24,7 +26,13 @@ export const VolunteerApplication = () => {
         setApplications(response?.volunteers || []);
       })
       .catch((error) => {
-        console.error('봉사 데이터를 가져오는 중 오류가 발생했습니다: ', error);
+        if (axios.isAxiosError(error)) {
+          console.error('에러 메시지:', error.message);
+          console.error('응답 데이터:', error.response?.data);
+          console.error('상태 코드:', error.response?.status);
+        } else {
+          console.error('알 수 없는 에러:', error);
+        }
       });
   }, []);
 
