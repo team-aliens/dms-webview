@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
 import { Router } from './Router';
 import { StyledProvider } from '@team-aliens/design-system';
-import { registerSetAuthToken } from './utils/setAuthToken';
-
-registerSetAuthToken();
 
 function App() {
   useEffect(() => {
