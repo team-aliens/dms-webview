@@ -2,9 +2,8 @@ import styled from 'styled-components';
 import { AvailableApplication } from '../../components/Volunteer/AvailableApplication';
 import { VolunteerHeader } from '../../components/Volunteer/Header';
 import { useEffect, useState } from 'react';
-import { getVolunteer } from '../../apis/volunteers';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { useGetVolunteer } from '../../hooks/useVolunteerApi';
 
 enum THEME {
   'LIGHT' = 'LIGHT',
@@ -17,23 +16,14 @@ export const VolunteerApplication = () => {
   const [userTheme] = useState<THEME>(
     initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
   );
+
+  const { data } = useGetVolunteer();
+
   const [applications, setApplications] = useState<any[]>([]);
 
   useEffect(() => {
-    getVolunteer()
-      .then((response) => {
-        setApplications(response?.volunteers || []);
-      })
-      .catch((error) => {
-        if (axios.isAxiosError(error)) {
-          console.error('에러 메시지:', error.message);
-          console.error('응답 데이터:', error.response?.data);
-          console.error('상태 코드:', error.response?.status);
-        } else {
-          console.error('알 수 없는 에러:', error);
-        }
-      });
-  }, []);
+    setApplications(data?.volunteers || []);
+  }, [data]);
 
   const removeApplication = (volunteerId: string) => {
     setApplications((prevApplications) =>

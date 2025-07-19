@@ -3,9 +3,8 @@ import { VolunteerHeader } from '../../components/Volunteer/Header';
 import { ApplicationHistory } from '../../components/Volunteer/ApplicationHistory';
 import { useEffect, useState } from 'react';
 import { Explain, Text } from './Application';
-import { getMyVolunteers } from '../../apis/volunteers';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { useGetMyVolunteers } from '../../hooks/useVolunteerApi';
 
 enum THEME {
   'LIGHT' = 'LIGHT',
@@ -20,21 +19,11 @@ export const VolunteerHistory = () => {
     initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
   );
 
+  const { data } = useGetMyVolunteers();
+
   useEffect(() => {
-    getMyVolunteers()
-      .then((response) => {
-        setHistories(response.volunteer_applications || []);
-      })
-      .catch((error) => {
-        if (axios.isAxiosError(error)) {
-          console.error('에러 메시지:', error.message);
-          console.error('응답 데이터:', error.response?.data);
-          console.error('상태 코드:', error.response?.status);
-        } else {
-          console.error('알 수 없는 에러:', error);
-        }
-      });
-  }, []);
+    setHistories(data?.volunteer_applications || []);
+  }, [data]);
 
   return (
     <Wrapper>
