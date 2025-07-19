@@ -6,13 +6,22 @@ export function registerSetAuthToken() {
     expires.setDate(expires.getDate() + 7);
 
     if (accessToken) {
-      setCookie('access_token', accessToken, { path: '/', expires });
+      setCookie('access_token', accessToken, {
+        path: '/',
+        expires,
+      });
     }
+
     if (refreshToken) {
-      setCookie('refresh_token', refreshToken, { path: '/', expires });
+      setCookie('refresh_token', refreshToken, {
+        path: '/',
+        expires,
+      });
     }
 
     window.location.reload();
     return 'SUCCESS';
   };
 }
+
+export {};
