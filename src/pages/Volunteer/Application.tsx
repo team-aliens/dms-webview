@@ -22,6 +22,7 @@ export const VolunteerApplication = () => {
   const [applications, setApplications] = useState<any[]>([]);
 
   useEffect(() => {
+    console.log('연동 성공! 데이터:', data);
     setApplications(data?.volunteers || []);
   }, [data]);
 
