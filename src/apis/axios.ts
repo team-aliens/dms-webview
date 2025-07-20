@@ -1,19 +1,31 @@
-import axios, { AxiosError } from 'axios';
-import { getCookie } from '../utils/cookies';
-import { setCookie } from '../utils/cookies';
+import axios, {
+  AxiosError,
+  AxiosHeaders,
+  InternalAxiosRequestConfig,
+} from 'axios';
+import { getCookie, setCookie } from '../utils/cookies';
 import { reIssueToken } from './auth';
 
 export const instance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   timeout: 10000,
 });
+let isRefreshing = false;
+let refreshSubscribers: ((token: string) => void)[] = [];
+
+const onRefreshed = (token: string) => {
+  refreshSubscribers.forEach((callback) => callback(token));
+  refreshSubscribers = [];
+};
 
 instance.interceptors.request.use(
   (config) => {
     const accessToken = getCookie('access_token');
     if (accessToken) {
-      config.headers = config.headers ?? {};
-      config.headers.Authorization = `Bearer ${accessToken}`;
+      config.headers = new AxiosHeaders({
+        ...config.headers,
+        Authorization: `Bearer ${accessToken}`,
+      });
     }
     return config;
   },
@@ -22,39 +34,65 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError<AxiosError>) => {
-    if (axios.isAxiosError(error) && error.response) {
-      const { config } = error;
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
+
+    if (error.response?.status === 401 || error.response?.status === 403) {
       const refreshToken = getCookie('refresh_token');
-      if (error.response.data.message === 'Expired Token') {
-        if (refreshToken) {
-          try {
-            const res = await reIssueToken(refreshToken);
-            const accessExpired = new Date(res.access_token_expired_at);
-            const refreshExpired = new Date(res.refresh_token_expired_at);
 
-            setCookie('access_token', res.access_token, {
-              expires: accessExpired,
-            });
-
-            setCookie('refresh_token', res.refresh_token, {
-              expires: refreshExpired,
-            });
-
-            if (config?.headers)
-              config.headers['Authorization'] = `Bearer ${res.access_token}`;
-
-            return axios(config!);
-          } catch (error) {
-            return Promise.reject(error);
-          }
-        } else {
-          window.location.href = '/login';
-        }
-      } else {
+      if (!refreshToken) {
+        window.location.href = '/login';
         return Promise.reject(error);
       }
+
+      if (originalRequest._retry) {
+        return Promise.reject(error);
+      }
+      originalRequest._retry = true;
+
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          refreshSubscribers.push((token: string) => {
+            originalRequest.headers = new AxiosHeaders({
+              ...originalRequest.headers,
+              Authorization: `Bearer ${token}`,
+            });
+            resolve(instance(originalRequest));
+          });
+        });
+      }
+
+      isRefreshing = true;
+
+      try {
+        const res = await reIssueToken(refreshToken);
+        const newAccessToken = res.access_token;
+
+        setCookie('access_token', newAccessToken, {
+          expires: new Date(res.access_token_expired_at),
+        });
+
+        setCookie('refresh_token', res.refresh_token, {
+          expires: new Date(res.refresh_token_expired_at),
+        });
+
+        isRefreshing = false;
+        onRefreshed(newAccessToken);
+
+        originalRequest.headers = new AxiosHeaders({
+          ...originalRequest.headers,
+          Authorization: `Bearer ${newAccessToken}`,
+        });
+        return instance(originalRequest);
+      } catch (err) {
+        isRefreshing = false;
+        window.location.href = '/login';
+        return Promise.reject(err);
+      }
     }
+
     return Promise.reject(error);
   },
 );
