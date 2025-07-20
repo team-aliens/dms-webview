@@ -19,12 +19,19 @@ export const VolunteerHistory = () => {
     initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
   );
 
-  const { data } = useGetMyVolunteers();
+  const { data, isLoading, isError } = useGetMyVolunteers();
 
   useEffect(() => {
-    console.log('연동 성공! 데이터:', data);
-    setHistories(data?.volunteer_applications || []);
-  }, [data]);
+    if (isLoading) return;
+    if (isError) {
+      console.error('봉사 데이터 불러오기 실패함');
+      return;
+    }
+    if (data) {
+      console.log('연동 성공! 데이터:', data);
+      setHistories(data.volunteer_applications || []);
+    }
+  }, [data, isLoading, isError]);
 
   return (
     <Wrapper>
