@@ -20,6 +20,7 @@ export function registerSetAuthToken() {
     }
 
     window.location.reload();
+    console.log('setAuthToken 등록됨!');
     return 'SUCCESS';
   };
 }

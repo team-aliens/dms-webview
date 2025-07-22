@@ -23,6 +23,7 @@ export const ApplicationHistory = ({
   status,
   volunteerId,
 }: ApplicationHistoryProps) => {
+  console.log(window.setAuthToken);
   const location = useLocation();
   const initTheme = new URLSearchParams(location.search);
   const [userTheme] = React.useState<THEME>(
