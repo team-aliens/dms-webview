@@ -9,6 +9,7 @@ import { reIssueToken } from './auth';
 export const instance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   timeout: 10000,
+  withCredentials: true,
 });
 
 let isRefreshing = false;
@@ -49,13 +50,13 @@ instance.interceptors.response.use(
 
       if (!refreshToken) {
         console.warn('리프레시 토큰 없음. 로그인 필요함.');
-        window.location.href = '/login';
+
         return Promise.reject(error);
       }
 
       if (originalRequest._retry) {
         console.warn('이미 리트라이한 요청인데 실패함.');
-        window.location.href = '/login';
+
         return Promise.reject(error);
       }
 
@@ -102,7 +103,6 @@ instance.interceptors.response.use(
         return instance(originalRequest);
       } catch (err) {
         console.error('토큰 재발급 실패:', err);
-        window.location.href = '/login';
         return Promise.reject(err);
       } finally {
         isRefreshing = false;
