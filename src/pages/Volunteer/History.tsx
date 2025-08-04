@@ -24,7 +24,7 @@ export const VolunteerHistory = () => {
   useEffect(() => {
     if (isLoading) return;
     if (isError) {
-      console.error('봉사 데이터 불러오기 실패함');
+      console.error('봉사 데이터 불러오기 실패함, ', isError);
       return;
     }
     if (data) {
