@@ -2,6 +2,8 @@ import { setCookie } from './cookies';
 
 export function registerSetAuthToken() {
   window.setAuthToken = (accessToken: string, refreshToken: string) => {
+    console.log('setAuthToken 실행됨!', accessToken, refreshToken);
+
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
 
@@ -20,9 +22,10 @@ export function registerSetAuthToken() {
     }
 
     window.location.reload();
-    console.log('setAuthToken 등록됨!');
     return 'SUCCESS';
   };
+
+  console.log('setAuthToken 등록됨!');
 }
 
 export {};
