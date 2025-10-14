@@ -58,7 +58,7 @@ const Wrapper = styled.div<{ Theme: THEME }>`
   left: 0;
   width: 100%;
   background-color: ${({ Theme }) =>
-    Theme === THEME.LIGHT ? '#F2F2F7' : '#242424'};
+    Theme === THEME.LIGHT ? '#FFFFFF' : '#242424'};
   z-index: 1000;
 `;
 
