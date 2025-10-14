@@ -81,7 +81,7 @@ const ContentWrapper = styled.div<{ Theme: THEME }>`
   width: 100%;
   min-height: 100vh;
   background-color: ${({ Theme }) =>
-    Theme === THEME.LIGHT ? '#F2F2F7' : '#242424'};
+    Theme === THEME.LIGHT ? '#FFFFFF' : '#242424'};
 `;
 
 const ContentContainer = styled.div`
