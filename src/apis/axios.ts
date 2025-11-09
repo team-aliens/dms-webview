@@ -11,6 +11,8 @@ export const instance = axios.create({
   timeout: 10000,
 });
 
+console.log('axios baseURL:', instance.defaults.baseURL);
+
 let isRefreshing = false;
 let refreshSubscribers: ((token: string) => void)[] = [];
 
