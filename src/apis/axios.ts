@@ -11,8 +11,6 @@ export const instance = axios.create({
   timeout: 10000,
 });
 
-console.log('axios baseURL:', instance.defaults.baseURL);
-
 let isRefreshing = false;
 let refreshSubscribers: ((token: string) => void)[] = [];
 
@@ -51,7 +49,7 @@ instance.interceptors.response.use(
 
       if (!refreshToken) {
         console.warn('리프레시 토큰 없음. 로그인 필요함.');
-        window.location.href = '/login';
+        // window.location.href = '/login';
         return Promise.reject(error);
       }
 
