@@ -1,19 +1,27 @@
 import { setCookie } from './cookies';
 
+function extractTokenValue(tokenString: string): string {
+  const match = tokenString.match(/value=([^,]+)/);
+  return match ? match[1] : tokenString;
+}
+
 export function registerSetAuthToken() {
   window.setAuthToken = (accessToken: string, refreshToken: string) => {
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
 
-    if (accessToken) {
-      setCookie('access_token', accessToken, {
+    const actualAccessToken = extractTokenValue(accessToken);
+    const actualRefreshToken = extractTokenValue(refreshToken);
+
+    if (actualAccessToken) {
+      setCookie('access_token', actualAccessToken, {
         path: '/',
         expires,
       });
     }
 
-    if (refreshToken) {
-      setCookie('refresh_token', refreshToken, {
+    if (actualRefreshToken) {
+      setCookie('refresh_token', actualRefreshToken, {
         path: '/',
         expires,
       });
