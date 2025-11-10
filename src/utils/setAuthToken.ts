@@ -1,7 +1,7 @@
 import { setCookie } from './cookies';
 
 export function registerSetAuthToken() {
-  window.setAuthToken = (accessToken: string, refreshToken: string) => {
+  const realSetAuthToken = (accessToken: string, refreshToken: string) => {
     console.log('setAuthToken 실행됨!', accessToken, refreshToken);
 
     const expires = new Date();
@@ -25,7 +25,15 @@ export function registerSetAuthToken() {
     return 'SUCCESS';
   };
 
+  window.setAuthToken = realSetAuthToken;
   console.log('setAuthToken 등록됨!');
+
+  if (window.setAuthTokenQueue && window.setAuthTokenQueue.length > 0) {
+    window.setAuthTokenQueue.forEach((args) => {
+      realSetAuthToken(args[0], args[1]);
+    });
+    window.setAuthTokenQueue = [];
+  }
 }
 
 export {};
