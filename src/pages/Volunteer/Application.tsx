@@ -17,21 +17,21 @@ export const VolunteerApplication = () => {
     initTheme.get('theme') === 'dark' ? THEME.DARK : THEME.LIGHT,
   );
 
-  const { data, isLoading, isError } = useGetVolunteer();
+  const { data, isLoading, isError, error } = useGetVolunteer();
 
   const [applications, setApplications] = useState<any[]>([]);
 
   useEffect(() => {
     if (isLoading) return;
     if (isError) {
-      console.error('봉사 데이터 불러오기 실패함, ', isError);
+      console.error('봉사 데이터 불러오기 실패함, ', error);
       return;
     }
     if (data) {
       console.log('연동 성공! 데이터:', data);
       setApplications(data.volunteers || []);
     }
-  }, [data, isLoading, isError]);
+  }, [data, isLoading, isError, error]);
 
   const removeApplication = (volunteerId: string) => {
     setApplications((prevApplications) =>
