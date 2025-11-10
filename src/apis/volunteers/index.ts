@@ -5,22 +5,30 @@ const router = '/volunteers';
 
 // 봉사 활동 신청
 export const applicationVolunteer = async (volunteerId: string) => {
-    await instance.post(`${router}/application/${volunteerId}`);
+    const url = `${router}/application/${volunteerId}`;
+    console.log(`Requesting POST: ${url}`);
+    await instance.post(url);
 }
 
 // 봉사 활동 신청 취소
 export const deleteApplicationVolunteer = async (volunteerId: string) => {
-    await instance.delete(`${router}/cancellation/${volunteerId}`)
+    const url = `${router}/cancellation/${volunteerId}`;
+    console.log(`Requesting DELETE: ${url}`);
+    await instance.delete(url)
 }
 
 // 봉사 활동 조회
 export const getVolunteer = async () => {
-    const {data} = await instance.get<getVolunteerResponse>(`${router}`);
+    const url = `${router}`;
+    console.log(`Requesting GET: ${url}`);
+    const {data} = await instance.get<getVolunteerResponse>(url);
     return data;
 }
 
 // 내 봉사 신청 내역 조회
 export const getMyVolunteers = async () => {
-    const {data} = await instance.get<getMyVolunteersResponse>(`${router}/my/application`)
+    const url = `${router}/my/application`;
+    console.log(`Requesting GET: ${url}`);
+    const {data} = await instance.get<getMyVolunteersResponse>(url)
     return data;
 }
