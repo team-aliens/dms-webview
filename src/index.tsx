@@ -4,6 +4,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { registerSetAuthToken } from './utils/setAuthToken';
 
+console.log('process.env.REACT_APP_BASE_URL:', process.env.REACT_APP_BASE_URL);
+
 registerSetAuthToken();
 
 const root = ReactDOM.createRoot(
