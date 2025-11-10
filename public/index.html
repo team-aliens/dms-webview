@@ -26,10 +26,19 @@
     -->
     <title>React App</title>
     <script>
-      window.setAuthTokenQueue = [];
       window.setAuthToken = (accessToken, refreshToken) => {
-        console.log('Placeholder setAuthToken called. Queuing tokens.');
-        window.setAuthTokenQueue.push([accessToken, refreshToken]);
+        console.log('setAuthToken from index.html 실행됨!', accessToken, refreshToken);
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 7);
+        const expiresString = expires.toUTCString();
+    
+        if (accessToken) {
+          document.cookie = `access_token=${accessToken}; path=/; expires=${expiresString};`;
+        }
+        if (refreshToken) {
+          document.cookie = `refresh_token=${refreshToken}; path=/; expires=${expiresString};`;
+        }
+        window.location.reload();
       };
     </script>
   </head>
