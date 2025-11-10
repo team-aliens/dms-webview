@@ -34,7 +34,7 @@ export const VolunteerApplication = () => {
       return;
     }
     if (data) {
-      console.log('연동 성공! 데이터:', data);
+      console.log('연동 성공! 데이터:', JSON.stringify(data, null, 2));
       setApplications(data.volunteers || []);
     }
   }, [data, isLoading, isError, error]);
