@@ -39,6 +39,7 @@
           document.cookie = `refresh_token=${refreshToken}; path=/; expires=${expiresString};`;
         }
         window.location.reload();
+        return 'SUCCESS';
       };
     </script>
   </head>
