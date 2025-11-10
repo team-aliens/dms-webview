@@ -29,7 +29,7 @@ export const VolunteerHistory = () => {
         'Status:',
         error.response?.status,
         'Message:',
-        error.response?.data,
+        JSON.stringify(error.response?.data),
       );
       return;
     }
