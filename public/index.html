@@ -28,6 +28,7 @@
     <script>
       window.setAuthTokenQueue = [];
       window.setAuthToken = (accessToken, refreshToken) => {
+        console.log('Placeholder setAuthToken called. Queuing tokens.');
         window.setAuthTokenQueue.push([accessToken, refreshToken]);
       };
     </script>

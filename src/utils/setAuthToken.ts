@@ -27,8 +27,10 @@ export function registerSetAuthToken() {
 
   window.setAuthToken = realSetAuthToken;
   console.log('setAuthToken 등록됨!');
+  console.log('Checking setAuthTokenQueue:', window.setAuthTokenQueue);
 
   if (window.setAuthTokenQueue && window.setAuthTokenQueue.length > 0) {
+    console.log(`Processing ${window.setAuthTokenQueue.length} queued calls.`);
     window.setAuthTokenQueue.forEach((args) => {
       realSetAuthToken(args[0], args[1]);
     });
