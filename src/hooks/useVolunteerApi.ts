@@ -5,16 +5,21 @@ import {
   getVolunteer,
   getMyVolunteers,
 } from '../apis/volunteers';
+import {
+  getMyVolunteersResponse,
+  getVolunteerResponse,
+} from '../apis/volunteers/response';
+import { AxiosError } from 'axios';
 
 export const useGetVolunteer = () => {
-  return useQuery({
+  return useQuery<getVolunteerResponse, AxiosError>({
     queryKey: ['volunteer'],
     queryFn: getVolunteer,
   });
 };
 
 export const useGetMyVolunteers = () => {
-  return useQuery({
+  return useQuery<getMyVolunteersResponse, AxiosError>({
     queryKey: ['my-volunteers'],
     queryFn: getMyVolunteers,
   });
